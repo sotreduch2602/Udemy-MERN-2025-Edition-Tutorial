@@ -5,7 +5,7 @@ export const JOB_STATUS = {
 };
 
 export const JOB_TYPES = {
-  FULL_TIME: "full_time",
+  FULL_TIME: "full-time",
   DECLINED: "declined",
   INTERNSHIP: "internship",
 };
