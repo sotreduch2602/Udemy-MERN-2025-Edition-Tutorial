@@ -30,7 +30,7 @@ app.post(
     if (!errors.isEmpty()) {
       const errorMessage = errors.array().map((error) => error.msg);
       return res.status(400).json({ errors: errorMessage });
-    }
+      
     console.log(errors);
     next();
   },
