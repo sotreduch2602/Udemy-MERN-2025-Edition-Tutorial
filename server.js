@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 
 //!Routers
 import jobRouter from "./routers/jobRouter.js";
+import authRouter from "./routers/authRouter.js";
 
 //!middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
@@ -27,6 +28,7 @@ app.post("/api/v1/test", (req, res) => {
 });
 
 app.use("/api/v1/jobs", jobRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "route not found" });
