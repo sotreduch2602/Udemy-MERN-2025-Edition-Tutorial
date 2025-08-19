@@ -1,7 +1,8 @@
 import { body, param, validationResult } from "express-validator";
 import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
-import { JOB_STATUS, JOB_TYPES } from "../utils/constants.js";
+import { JOB_STATUS, JOB_TYPES, USER_ROLE } from "../utils/constants.js";
 import Job from "../models/JobModel.js";
+import User from "../models/UserModel.js";
 import mongoose from "mongoose";
 
 const withValidationErrors = (validateValues) => {
@@ -34,12 +35,28 @@ export const validateJobInput = withValidationErrors([
 ]);
 
 export const validateIdParam = withValidationErrors([
-  param("id")
-    .custom(async (value) => {
-      const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
-      if (!isValidMongoId) throw new BadRequestError("invalid MongoDB id");
+  param("id").custom(async (value) => {
+    const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
+    if (!isValidMongoId) throw new BadRequestError("invalid MongoDB id");
 
-      const job = await Job.findById(value);
-      if (!job) throw new NotFoundError(`no job with id ${value}`);
-    })
+    const job = await Job.findById(value);
+    if (!job) throw new NotFoundError(`no job with id ${value}`);
+  }),
+]);
+
+export const validateRegisterInput = withValidationErrors([
+  body("name").notEmpty().withMessage("name is required"),
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .custom(async (email) => {
+      const user = await User.findOne({ email });
+      if (user) {
+        throw new BadRequestError("email already exists");
+      }
+    }),
+  body("password").notEmpty().withMessage("password is required"),
+
+  body("lastName").notEmpty().withMessage("lastName is required"),
+  body("location").notEmpty().withMessage("location is required"),
 ]);
