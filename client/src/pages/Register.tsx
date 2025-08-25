@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import { Form, Link, type ActionFunctionArgs } from "react-router-dom";
+
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { Logo } from "../components/Logo";
 import FormRow from "../components/FormRow";
+
+export const registerAction = async (data: ActionFunctionArgs) => {
+  console.log(data);
+  return null;
+};
+
 const Register = () => {
   return (
     <Wrapper>
-      <form className="form">
+      <Form method="post" className="form">
         <Logo />
         <h4>Register</h4>
 
@@ -44,7 +51,7 @@ const Register = () => {
             Login
           </Link>
         </p>
-      </form>
+      </Form>
     </Wrapper>
   );
 };

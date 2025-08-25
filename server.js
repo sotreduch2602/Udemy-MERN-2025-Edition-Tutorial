@@ -26,11 +26,11 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.post("/api/v1/test", (req, res) => {
-  const { name } = req.body;
-  res.json({ message: `Hello ${name}` });
+app.get("/api/v1/test", (req, res) => {
+  res.json({
+    message: `test route`,
+  });
 });
-
 
 //!Route
 app.use("/api/v1/jobs", authenticateUser, jobRouter);

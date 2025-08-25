@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomeLayout from "./pages/HomeLayout";
 import Register from "./pages/Register";
+import { registerAction } from "./pages/Register";
 import DashboardLayout from "./pages/DashboardLayout";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+        action: registerAction,
       },
       {
         path: "/login",
