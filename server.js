@@ -8,15 +8,19 @@ import mongoose from "mongoose";
 //!Routers
 import jobRouter from "./routers/jobRouter.js";
 import authRouter from "./routers/authRouter.js";
+import userRouter from "./routers/userRouter.js";
 
 //!middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
+import cookieParser from "cookie-parser";
+import { authenticateUser } from "./middleware/authMiddleware.js";
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Hello World");
@@ -27,7 +31,10 @@ app.post("/api/v1/test", (req, res) => {
   res.json({ message: `Hello ${name}` });
 });
 
-app.use("/api/v1/jobs", jobRouter);
+
+//!Route
+app.use("/api/v1/jobs", authenticateUser, jobRouter);
+app.use("/api/v1/users", authenticateUser, userRouter);
 app.use("/api/v1/auth", authRouter);
 
 app.use("*", (req, res) => {
