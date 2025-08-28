@@ -1,8 +1,50 @@
+import { Form, useNavigation, useOutletContext } from "react-router-dom";
+import Wrapper from "../assets/wrappers/DashboardFormPage";
+import FormRow from "../components/FormRow";
+import { JOB_STATUS, JOB_TYPES } from "../../../utils/constants";
+import FormRowSelect from "../components/FormRowSelect";
 
 const AddJob = () => {
-    return (
-        <h1>AddJob</h1>
-    )
-}
+  const { user } = useOutletContext<{ user: { location: string } }>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+  return (
+    <Wrapper>
+      <Form method="post" className="form">
+        <h4 className="form-title">Add job</h4>
+        <div className="form-center">
+          <FormRow type="text" name="position" />
+          <FormRow type="text" name="company" />
+          <FormRow
+            type="text"
+            labelText="Job Location"
+            name="jobLocation"
+            defaultValue={user.location}
+          />
 
-export default AddJob 
+          <FormRowSelect
+            name="jobStatus"
+            labelText="job status"
+            list={Object.values(JOB_STATUS)}
+            defaultValue={JOB_STATUS.PENDING}
+          />
+          <FormRowSelect
+            name="jobTypes"
+            labelText="job types"
+            list={Object.values(JOB_TYPES.FULL_TIME)}
+            defaultValue={JOB_TYPES.FULL_TIME}
+          />
+          <button
+            type="submit"
+            className="btn btn-block form-btn"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "submitting" : "submit"}
+          </button>
+        </div>
+      </Form>
+    </Wrapper>
+  );
+};
+
+export default AddJob;

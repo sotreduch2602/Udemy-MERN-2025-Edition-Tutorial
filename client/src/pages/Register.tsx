@@ -1,15 +1,38 @@
-import { Form, Link, type ActionFunctionArgs } from "react-router-dom";
+import {
+  Form,
+  Link,
+  redirect,
+  useNavigation,
+  type ActionFunctionArgs,
+} from "react-router-dom";
 
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { Logo } from "../components/Logo";
 import FormRow from "../components/FormRow";
+import customFetch from "../utils/customFetch";
+import { toast } from "react-toastify";
+import customError from "../utils/customError";
 
-export const registerAction = async (data: ActionFunctionArgs) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const registerAction = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
   console.log(data);
-  return null;
+  try {
+    await customFetch.post("/auth/register", data);
+    toast.success("Registration successfully");
+    return redirect("/login");
+  } catch (error: unknown) {
+    const msg = customError(error) ? error?.response?.data?.msg : "Registration failed";
+    toast.error(msg);
+    return error;
+  }
 };
 
 const Register = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -42,8 +65,8 @@ const Register = () => {
           defaultValue="password123"
         />
 
-        <button type="submit" className="btn btn-block">
-          submit
+        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting" : "Submit"}
         </button>
         <p>
           Already a member?
