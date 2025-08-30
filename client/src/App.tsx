@@ -2,17 +2,21 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomeLayout from "./pages/HomeLayout";
 import Register from "./pages/Register";
-import { registerAction } from "./pages/Register";
-import DashboardLayout, { dashboardLoader } from "./pages/DashboardLayout";
-import Login, { loginAction } from "./pages/Login";
 import Landing from "./pages/Landing";
 import Error from "./pages/Error";
-import AddJob from "./pages/AddJob";
 import Stats from "./pages/Stats";
-import AllJobs from "./pages/AllJobs";
+import AllJobs, { allJobsLoader } from "./pages/AllJobs";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import { checkDefaultTheme } from "./utils/theme";
+
+import { registerAction } from "./pages/Register";
+import DashboardLayout, { dashboardLoader } from "./pages/DashboardLayout";
+import Login, { loginAction } from "./pages/Login";
+import AddJob, { addJobAction } from "./pages/AddJob";
+
+import EditJob, { editJobAction, editJobLoader } from "./pages/EditJob";
+import { deleteJobAction } from "./pages/DeleteJob";
 
 checkDefaultTheme();
 
@@ -44,6 +48,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <AddJob />,
+            action: addJobAction,
           },
           {
             path: "stats",
@@ -52,6 +57,7 @@ const router = createBrowserRouter([
           {
             path: "all-jobs",
             element: <AllJobs />,
+            loader: allJobsLoader,
           },
           {
             path: "Admin",
@@ -61,6 +67,13 @@ const router = createBrowserRouter([
             path: "Profile",
             element: <Profile />,
           },
+          {
+            path: "edit-job/:id",
+            element: <EditJob />,
+            loader: editJobLoader,
+            action: editJobAction,
+          },
+          { path: "delete-job/:id", action: deleteJobAction },
         ],
       },
     ],

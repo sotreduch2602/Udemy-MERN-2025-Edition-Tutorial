@@ -8,12 +8,25 @@ import { checkDefaultTheme } from "../utils/theme";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 
+interface CurrentUserData {
+  msg: string;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+    lastName: string;
+    location: string;
+    role: string;
+    __v: number;
+  };
+}
+
 //eslint-disable-next-line react-refresh/only-export-components
 export const dashboardLoader = async () => {
   try {
     const { data } = await customFetch.get("/users/current-user");
     return data;
-  } catch (error) {
+  } catch {
     return redirect("/");
   }
 };
@@ -21,11 +34,9 @@ export const dashboardLoader = async () => {
 const DashboardContext = createContext({});
 
 const DashboardLayout = () => {
-  const data = useLoaderData();
-  console.log(data);
-
+  const data = useLoaderData() as CurrentUserData;
   //temp
-  const user = { name: "John" };
+  const user = data.user;
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme);
   const navigate = useNavigate();
@@ -42,7 +53,6 @@ const DashboardLayout = () => {
   };
 
   const logoutUser = async () => {
-    console.log("logout");
     navigate("/");
     await customFetch.get("/auth/logout");
     toast.success("Logging out...");
@@ -79,7 +89,7 @@ interface DashboardContextType {
   toggleSidebar: () => void;
   showSidebar: boolean;
   logoutUser: () => void;
-  user: string;
+  user: CurrentUserData["user"];
   toggleDarkTheme: () => void;
   isDarkTheme: boolean;
 }

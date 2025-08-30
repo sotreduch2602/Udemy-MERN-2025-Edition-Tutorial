@@ -1,8 +1,34 @@
-import { Form, useNavigation, useOutletContext } from "react-router-dom";
+import {
+  Form,
+  redirect,
+  useNavigation,
+  useOutletContext,
+} from "react-router-dom";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import FormRow from "../components/FormRow";
 import { JOB_STATUS, JOB_TYPES } from "../../../utils/constants";
 import FormRowSelect from "../components/FormRowSelect";
+import customFetch from "../utils/customFetch";
+import { toast } from "react-toastify";
+import customError from "../utils/customError";
+
+//eslint-disable-next-line react-refresh/only-export-components
+export const addJobAction = async ({ request }: { request: Request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  try {
+    await customFetch.post("/jobs", data);
+    toast.success("Add jobs successfully");
+    return redirect("all-jobs");
+  } catch (error) {
+    const errors = customError(error)
+      ? error?.response?.data?.msg
+      : "Add Failed";
+    toast.error(errors);
+    return errors;
+  }
+};
 
 const AddJob = () => {
   const { user } = useOutletContext<{ user: { location: string } }>();
@@ -29,9 +55,9 @@ const AddJob = () => {
             defaultValue={JOB_STATUS.PENDING}
           />
           <FormRowSelect
-            name="jobTypes"
+            name="jobType"
             labelText="job types"
-            list={Object.values(JOB_TYPES.FULL_TIME)}
+            list={Object.values(JOB_TYPES)}
             defaultValue={JOB_TYPES.FULL_TIME}
           />
           <button
