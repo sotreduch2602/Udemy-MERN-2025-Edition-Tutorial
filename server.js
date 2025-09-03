@@ -4,17 +4,24 @@ import express from "express";
 const app = express();
 import morgan from "morgan";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 //!Routers
 import jobRouter from "./routers/jobRouter.js";
 import authRouter from "./routers/authRouter.js";
 import userRouter from "./routers/userRouter.js";
 
+//!Public
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
+
 //!middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
-import cookieParser from "cookie-parser";
 import { authenticateUser } from "./middleware/authMiddleware.js";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./public")));
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }

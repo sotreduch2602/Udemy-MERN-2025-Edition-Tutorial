@@ -7,12 +7,15 @@ interface NavLinksProps {
 }
 
 const NavLinks = ({ isBigSidebar }: NavLinksProps) => {
-  const { toggleSidebar } = useDashboardContext();
-
+  const { toggleSidebar, user } = useDashboardContext();
+  const { role } = user;
   return (
     <div className="nav-links">
       {Link.map((LinkItem) => {
         const { text, path, icon } = LinkItem;
+
+        if (role !== "admin" && path === "admin") return;
+
         return (
           <NavLink
             to={path}

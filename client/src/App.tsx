@@ -7,7 +7,7 @@ import Error from "./pages/Error";
 import Stats from "./pages/Stats";
 import AllJobs, { allJobsLoader } from "./pages/AllJobs";
 import Profile from "./pages/Profile";
-import Admin from "./pages/Admin";
+import Admin, { adminLoader } from "./pages/Admin";
 import { checkDefaultTheme } from "./utils/theme";
 
 import { registerAction } from "./pages/Register";
@@ -62,6 +62,7 @@ const router = createBrowserRouter([
           {
             path: "Admin",
             element: <Admin />,
+            loader: adminLoader,
           },
           {
             path: "Profile",
