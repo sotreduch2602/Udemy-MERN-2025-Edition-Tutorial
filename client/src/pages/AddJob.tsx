@@ -1,9 +1,4 @@
-import {
-  Form,
-  redirect,
-  useNavigation,
-  useOutletContext,
-} from "react-router-dom";
+import { Form, redirect, useOutletContext } from "react-router-dom";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import FormRow from "../components/FormRow";
 import { JOB_STATUS, JOB_TYPES } from "../../../utils/constants";
@@ -11,6 +6,7 @@ import FormRowSelect from "../components/FormRowSelect";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import customError from "../utils/customError";
+import SubmitBtn from "../components/SubmitBtn";
 
 //eslint-disable-next-line react-refresh/only-export-components
 export const addJobAction = async ({ request }: { request: Request }) => {
@@ -32,8 +28,7 @@ export const addJobAction = async ({ request }: { request: Request }) => {
 
 const AddJob = () => {
   const { user } = useOutletContext<{ user: { location: string } }>();
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
+
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -60,13 +55,7 @@ const AddJob = () => {
             list={Object.values(JOB_TYPES)}
             defaultValue={JOB_TYPES.FULL_TIME}
           />
-          <button
-            type="submit"
-            className="btn btn-block form-btn"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "submitting" : "submit"}
-          </button>
+          <SubmitBtn />
         </div>
       </Form>
     </Wrapper>

@@ -6,7 +6,7 @@ import Landing from "./pages/Landing";
 import Error from "./pages/Error";
 import Stats from "./pages/Stats";
 import AllJobs, { allJobsLoader } from "./pages/AllJobs";
-import Profile from "./pages/Profile";
+import Profile, { profileAction } from "./pages/Profile";
 import Admin, { adminLoader } from "./pages/Admin";
 import { checkDefaultTheme } from "./utils/theme";
 
@@ -67,6 +67,7 @@ const router = createBrowserRouter([
           {
             path: "Profile",
             element: <Profile />,
+            action: profileAction
           },
           {
             path: "edit-job/:id",

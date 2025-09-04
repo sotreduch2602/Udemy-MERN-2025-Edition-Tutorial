@@ -8,7 +8,7 @@ import { checkDefaultTheme } from "../utils/theme";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 
-interface CurrentUserData {
+export interface CurrentUserData {
   msg: string;
   user: {
     _id: string;
@@ -18,6 +18,8 @@ interface CurrentUserData {
     location: string;
     role: string;
     __v: number;
+    avatar: string;
+    avatarPublicId: string;
   };
 }
 

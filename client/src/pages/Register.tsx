@@ -2,7 +2,6 @@ import {
   Form,
   Link,
   redirect,
-  useNavigation,
   type ActionFunctionArgs,
 } from "react-router-dom";
 
@@ -12,6 +11,7 @@ import FormRow from "../components/FormRow";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import customError from "../utils/customError";
+import SubmitBtn from "../components/SubmitBtn";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const registerAction = async ({ request }: ActionFunctionArgs) => {
@@ -23,16 +23,15 @@ export const registerAction = async ({ request }: ActionFunctionArgs) => {
     toast.success("Registration successfully");
     return redirect("/login");
   } catch (error: unknown) {
-    const msg = customError(error) ? error?.response?.data?.msg : "Registration failed";
+    const msg = customError(error)
+      ? error?.response?.data?.msg
+      : "Registration failed";
     toast.error(msg);
     return error;
   }
 };
 
 const Register = () => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
-
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -65,9 +64,8 @@ const Register = () => {
           defaultValue="password123"
         />
 
-        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting" : "Submit"}
-        </button>
+        <SubmitBtn />
+        
         <p>
           Already a member?
           <Link to="/login" className="member-btn">

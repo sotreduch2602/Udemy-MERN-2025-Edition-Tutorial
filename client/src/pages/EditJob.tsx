@@ -3,8 +3,8 @@ import {
   redirect,
   useLoaderData,
   useNavigation,
-
   type ActionFunctionArgs,
+  type LoaderFunctionArgs,
 } from "react-router-dom";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import customFetch from "../utils/customFetch";
@@ -13,9 +13,10 @@ import customError from "../utils/customError";
 import FormRow from "../components/FormRow";
 import FormRowSelect from "../components/FormRowSelect";
 import { JOB_STATUS, JOB_TYPES } from "../../../utils/constants";
+import SubmitBtn from "../components/SubmitBtn";
 
 //eslint-disable-next-line react-refresh/only-export-components
-export const editJobLoader = async ({ params }: { params: { id: string } }) => {
+export const editJobLoader = async ({ params }: LoaderFunctionArgs) => {
   try {
     const { data } = await customFetch(`/jobs/${params.id}`);
     return data;
@@ -55,10 +56,6 @@ export const editJobAction = async ({
 const EditJob = () => {
   const { job } = useLoaderData() as { job: unknown };
   const oldJob = job;
-  console.log(job);
-
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
 
   return (
     <Wrapper>
@@ -86,13 +83,7 @@ const EditJob = () => {
             list={Object.values(JOB_TYPES)}
           />
         </div>
-        <button
-          type="submit"
-          className="btn btn-block form-btn"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
+        <SubmitBtn formBtn />
       </Form>
     </Wrapper>
   );

@@ -3,7 +3,7 @@ import {
   Link,
   redirect,
   useActionData,
-  useNavigation,
+  useNavigate,
   type ActionFunctionArgs,
 } from "react-router-dom";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
@@ -12,6 +12,7 @@ import FormRow from "../components/FormRow";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import customError from "../utils/customError";
+import SubmitBtn from "../components/SubmitBtn";
 
 //eslint-disable-next-line react-refresh/only-export-components
 export const loginAction = async ({ request }: ActionFunctionArgs) => {
@@ -28,7 +29,7 @@ export const loginAction = async ({ request }: ActionFunctionArgs) => {
 
   try {
     await customFetch.post("/auth/login", data);
-    toast.success("Login Successfully");
+    toast.success("Testing User");
     return redirect("/dashboard");
   } catch (error) {
     errors.msg = customError(error)
@@ -42,10 +43,27 @@ export const loginAction = async ({ request }: ActionFunctionArgs) => {
 
 const Login = () => {
   type ActionErrors = { msg?: string };
-
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
   const errors = useActionData() as ActionErrors | undefined;
+
+  const navigate = useNavigate();
+
+  const loginDemoUser = async () => {
+    const data = {
+      email: "test@gmail.com",
+      password: "test123",
+    };
+
+    try {
+      await customFetch.post("/auth/login", data);
+      toast.success("Login Successfully");
+      return navigate("/dashboard");
+    } catch (error) {
+      const errors = customError(error)
+        ? error?.response?.data?.msg
+        : "Login failed";
+      toast.error(errors);
+    }
+  };
 
   return (
     <Wrapper>
@@ -55,10 +73,10 @@ const Login = () => {
         {errors?.msg && <p style={{ color: "red" }}>{errors?.msg}</p>}
         <FormRow type="email" name="email" defaultValue="john@gmail.com" />
         <FormRow type="password" name="password" defaultValue="password123" />
-        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-        <button type="button" className="btn btn-block">
+
+        <SubmitBtn />
+
+        <button type="button" className="btn btn-block" onClick={loginDemoUser}>
           explore the app
         </button>
         <p>

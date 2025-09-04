@@ -2,9 +2,10 @@ import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 import { redirect, useLoaderData } from "react-router-dom";
 import Wrapper from "../assets/wrappers/StatsContainer";
-import StatItem from "../components/Statitem";
 import { FaCalendarCheck, FaSuitcaseRolling } from "react-icons/fa";
+import StatItem from "../components/StatItem";
 
+//eslint-disable-next-line react-refresh/only-export-components
 export const adminLoader = async () => {
   try {
     const response = await customFetch.get("/users/admin/app-stats");
@@ -16,7 +17,7 @@ export const adminLoader = async () => {
 };
 
 const Admin = () => {
-  const { users, jobs } = useLoaderData();
+  const { users, jobs } = useLoaderData() as { users: string; jobs: string };
   return (
     <Wrapper>
       <StatItem
