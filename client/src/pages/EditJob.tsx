@@ -54,7 +54,7 @@ export const editJobAction = async ({
 };
 
 const EditJob = () => {
-  const { job } = useLoaderData() as { job: unknown };
+  const { job } = useLoaderData() as { job: any };
   const oldJob = job;
 
   return (

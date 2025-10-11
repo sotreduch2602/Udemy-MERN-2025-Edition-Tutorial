@@ -4,7 +4,7 @@ import HomeLayout from "./pages/HomeLayout";
 import Register from "./pages/Register";
 import Landing from "./pages/Landing";
 import Error from "./pages/Error";
-import Stats from "./pages/Stats";
+import Stats, { statsLoader } from "./pages/Stats";
 import AllJobs, { allJobsLoader } from "./pages/AllJobs";
 import Profile, { profileAction } from "./pages/Profile";
 import Admin, { adminLoader } from "./pages/Admin";
@@ -53,6 +53,7 @@ const router = createBrowserRouter([
           {
             path: "stats",
             element: <Stats />,
+            loader: statsLoader
           },
           {
             path: "all-jobs",

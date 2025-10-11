@@ -72,7 +72,7 @@ const Login = () => {
         <h4>login</h4>
         {errors?.msg && <p style={{ color: "red" }}>{errors?.msg}</p>}
         <FormRow type="email" name="email" defaultValue="john@gmail.com" />
-        <FormRow type="password" name="password" defaultValue="password123" />
+        <FormRow type="password" name="password" defaultValue="secret123" />
 
         <SubmitBtn />
 
